@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import randomWords from "random-words";
 
 import Keyboard from "@/components/Keyboard";
@@ -6,36 +6,37 @@ import WordShower from "@/components/Wordshower";
 import TitleHP from "@/components/Titlehp";
 import EndScreen from "@/components/Endscreen";
 
-import { INFO } from "@/utils/logging.js";
+import { INFO, WARN } from "@/utils/logging.js";
 import useNotMountEffect from "@/hooks/usenotmounteffect";
+import { useKeyDown } from "@/hooks/reactkeyboardinputhook";
 
 const letterUsedArray = [
-  { letter: "a", value: true },
-  { letter: "b", value: true },
-  { letter: "c", value: true },
-  { letter: "d", value: true },
-  { letter: "e", value: true },
-  { letter: "f", value: true },
-  { letter: "g", value: true },
-  { letter: "h", value: true },
-  { letter: "i", value: true },
-  { letter: "j", value: true },
-  { letter: "k", value: true },
-  { letter: "l", value: true },
-  { letter: "m", value: true },
-  { letter: "n", value: true },
-  { letter: "o", value: true },
-  { letter: "p", value: true },
-  { letter: "q", value: true },
-  { letter: "r", value: true },
-  { letter: "s", value: true },
-  { letter: "t", value: true },
-  { letter: "u", value: true },
-  { letter: "v", value: true },
-  { letter: "w", value: true },
-  { letter: "x", value: true },
-  { letter: "y", value: true },
-  { letter: "z", value: true },
+  { letter: "a", keyCode: 65, value: true },
+  { letter: "b", keyCode: 66, value: true },
+  { letter: "c", keyCode: 67, value: true },
+  { letter: "d", keyCode: 68, value: true },
+  { letter: "e", keyCode: 69, value: true },
+  { letter: "f", keyCode: 70, value: true },
+  { letter: "g", keyCode: 71, value: true },
+  { letter: "h", keyCode: 72, value: true },
+  { letter: "i", keyCode: 73, value: true },
+  { letter: "j", keyCode: 74, value: true },
+  { letter: "k", keyCode: 75, value: true },
+  { letter: "l", keyCode: 76, value: true },
+  { letter: "m", keyCode: 77, value: true },
+  { letter: "n", keyCode: 78, value: true },
+  { letter: "o", keyCode: 79, value: true },
+  { letter: "p", keyCode: 80, value: true },
+  { letter: "q", keyCode: 81, value: true },
+  { letter: "r", keyCode: 82, value: true },
+  { letter: "s", keyCode: 83, value: true },
+  { letter: "t", keyCode: 84, value: true },
+  { letter: "u", keyCode: 85, value: true },
+  { letter: "v", keyCode: 86, value: true },
+  { letter: "w", keyCode: 87, value: true },
+  { letter: "x", keyCode: 88, value: true },
+  { letter: "y", keyCode: 89, value: true },
+  { letter: "z", keyCode: 90, value: true },
 ];
 
 const hpArray = [
@@ -77,15 +78,23 @@ const App = () => {
   }, [game]);
 
   const disableLetter = useCallback(
-    (index) => {
-      const nextLetterUsedTable = letterUsedTable.map(({ letter, value }) => ({
-        letter: letter,
-        value: value,
-      }));
-      nextLetterUsedTable[index].value = false;
+    (letter) => {
+      const nextLetterUsedTable = letterUsedTable.map(
+        ({ letter, keyCode, value }) => ({
+          letter: letter,
+          keyCode: keyCode,
+          value: value,
+        })
+      );
+
+      let letterObj = nextLetterUsedTable.find(
+        (element) => element.letter === letter
+      );
+
+      letterObj.value = false;
 
       setLetterUsedTable(nextLetterUsedTable);
-      INFO(`Letter '${nextLetterUsedTable[index].letter}' has been disabled`);
+      INFO(`Letter '${letter}' has been disabled`);
     },
     [letterUsedTable]
   );
@@ -93,6 +102,7 @@ const App = () => {
   const hpMinus = useCallback(() => {
     while (true) {
       let randomIndex = Math.floor(Math.random() * 7);
+      INFO(`Random index: ${randomIndex}`);
       if (hp[randomIndex].value) {
         const nextHp = hp.map(({ letter, value }) => ({
           letter: letter,
@@ -108,9 +118,18 @@ const App = () => {
   }, [hp]);
 
   const openEndScreen = useCallback((message) => {
-    setGameEndStatus(`${message}!`);
+    setGameEndStatus(`${message}`);
     setEndScreenOpen((o) => !o);
   }, []);
+
+  const getWhitelist = useCallback(() => {
+    const whitelist = letterUsedTable.map((element) => {
+      if (element.value) {
+        return element.keyCode;
+      }
+    });
+    return whitelist;
+  }, [letterUsedTable]);
 
   useNotMountEffect(() => {
     INFO(`Checking win`);
@@ -120,7 +139,7 @@ const App = () => {
     }
     if (checkWin(word, lettersGuessed)) {
       INFO("Word is guessed \n You win!");
-      openEndScreen("You win");
+      openEndScreen("win");
     }
 
     return () => {
@@ -135,7 +154,7 @@ const App = () => {
 
     if (hp.every((element) => element.value === false)) {
       INFO("Hp is empty \n You lose!");
-      openEndScreen("You lose");
+      openEndScreen("lose");
     }
 
     return () => {
@@ -153,8 +172,20 @@ const App = () => {
     };
   }, [game]);
 
-  const handleClick = (index, letter) => {
-    disableLetter(index);
+  useKeyDown(
+    (element) => {
+      handleClick(element.e.key);
+    },
+    getWhitelist(),
+    []
+  );
+
+  const handleClick = (letter) => {
+    if (gameEndStatus !== "") {
+      WARN("Cannot click when end screen is open");
+      return;
+    }
+    disableLetter(letter);
 
     if (word.includes(letter)) {
       setLettersGuessed([...lettersGuessed, letter]);
@@ -175,6 +206,8 @@ const App = () => {
         open={endScreenOpen}
         setOpen={setEndScreenOpen}
         newGame={newGame}
+        status={gameEndStatus}
+        word={word}
       />
     </div>
   );

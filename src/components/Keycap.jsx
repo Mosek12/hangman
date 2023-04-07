@@ -2,7 +2,7 @@ const KeyCap = ({ letter, keyActive, handleClick, index }) => {
   return (
     <button
       className="button"
-      onClick={() => handleClick(index, letter)}
+      onClick={() => handleClick(letter)}
       disabled={!keyActive}
     >
       {letter.toUpperCase()}

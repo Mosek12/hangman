@@ -3,9 +3,9 @@ export function INFO(message) {
 }
 
 export function WARN(message) {
-  console.log(`[WARN] ${message}`);
+  console.warn(`[WARN] ${message}`);
 }
 
 export function ERROR(message) {
-  console.log(`[ERROR] ${message}`);
+  console.error(`[ERROR] ${message}`);
 }
