@@ -34,6 +34,9 @@ const EndScreen = ({ open, setOpen, newGame, status, word }) => {
           case "win":
             return <p>You win!</p>;
 
+          case "error":
+            return <p>Something went wrong</p>;
+
           case "":
             () => WARN("Invalid status");
             return <p>Something went wrong</p>;

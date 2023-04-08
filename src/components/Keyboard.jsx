@@ -1,9 +1,9 @@
 import KeyCap from "./Keycap";
 
-const Keyboard = ({ letterUsedTable, handleClick }) => {
+const Keyboard = ({ lettersUsed, handleClick }) => {
   return (
     <div className="keyboard">
-      {letterUsedTable.map(({ letter, value }, index) => {
+      {lettersUsed.map(({ letter, value }, index) => {
         return (
           <KeyCap
             key={index}

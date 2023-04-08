@@ -7,6 +7,6 @@ Futures:
 
 Plans:
 
-- [x] Add more languages
-- [x] Improve UI
-- [x] fix some bugs
+- [ ] Add more languages
+- [ ] Improve UI
+- [ ] fix some bugs

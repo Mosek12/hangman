@@ -1,0 +1,40 @@
+const lettersUsedArray = [
+  { letter: "a", keyCode: 65, value: true },
+  { letter: "b", keyCode: 66, value: true },
+  { letter: "c", keyCode: 67, value: true },
+  { letter: "d", keyCode: 68, value: true },
+  { letter: "e", keyCode: 69, value: true },
+  { letter: "f", keyCode: 70, value: true },
+  { letter: "g", keyCode: 71, value: true },
+  { letter: "h", keyCode: 72, value: true },
+  { letter: "i", keyCode: 73, value: true },
+  { letter: "j", keyCode: 74, value: true },
+  { letter: "k", keyCode: 75, value: true },
+  { letter: "l", keyCode: 76, value: true },
+  { letter: "m", keyCode: 77, value: true },
+  { letter: "n", keyCode: 78, value: true },
+  { letter: "o", keyCode: 79, value: true },
+  { letter: "p", keyCode: 80, value: true },
+  { letter: "q", keyCode: 81, value: true },
+  { letter: "r", keyCode: 82, value: true },
+  { letter: "s", keyCode: 83, value: true },
+  { letter: "t", keyCode: 84, value: true },
+  { letter: "u", keyCode: 85, value: true },
+  { letter: "v", keyCode: 86, value: true },
+  { letter: "w", keyCode: 87, value: true },
+  { letter: "x", keyCode: 88, value: true },
+  { letter: "y", keyCode: 89, value: true },
+  { letter: "z", keyCode: 90, value: true },
+];
+
+const hpArray = [
+  { letter: "H", value: true },
+  { letter: "A", value: true },
+  { letter: "N", value: true },
+  { letter: "G", value: true },
+  { letter: "M", value: true },
+  { letter: "A", value: true },
+  { letter: "N", value: true },
+];
+
+export { lettersUsedArray, hpArray };
