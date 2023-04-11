@@ -1,9 +1,22 @@
-import React from "react";
 import Popup from "reactjs-popup";
-import { WARN } from "@/utils/logging";
-import { useKeyDown } from "@/hooks/reactkeyboardinputhook";
+import { WARN } from "../utils/logging";
+import { useKeyDown } from "../hooks/reactkeyboardinputhook";
 
-const EndScreen = ({ open, setOpen, newGame, status, word }) => {
+interface Props {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  newGame: () => void;
+  status: gameEndStatusType;
+  word: letter[];
+}
+
+const EndScreen: React.FC<Props> = ({
+  open,
+  setOpen,
+  newGame,
+  status,
+  word,
+}) => {
   const handleClose = () => {
     setOpen(false);
     newGame();

@@ -1,25 +1,24 @@
 import { useCallback, useLayoutEffect, useState } from "react";
-import randomWords from "random-words";
 
-import Keyboard from "@/components/Keyboard";
-import WordShower from "@/components/Wordshower";
-import TitleHP from "@/components/Titlehp";
-import EndScreen from "@/components/Endscreen";
+import Keyboard from "./components/Keyboard";
+import WordShower from "./components/Wordshower";
+import TitleHP from "./components/Titlehp";
+import EndScreen from "./components/Endscreen";
 
-import { ERROR, INFO, WARN } from "@/utils/logging.js";
-import { hpArray, lettersUsedArray } from "@/utils/arrays.js";
-import { compareArrays } from "@/utils/functions";
-import useNotMountEffect from "@/hooks/usenotmounteffect";
-import { useKeyDown } from "@/hooks/reactkeyboardinputhook";
+import { ERROR, INFO, WARN } from "./utils/logging";
+import { hpArray, lettersUsedArray } from "./utils/arrays";
+import { compareArrays, getRandomWordInLetters } from "./utils/functions";
+import useNotMountEffect from "./hooks/usenotmounteffect";
+import { useKeyDown } from "./hooks/reactkeyboardinputhook";
 
-const App = () => {
-  const [word, setWord] = useState([]);
+const App: React.FC = () => {
+  const [word, setWord] = useState<letter[]>([]);
   const [lettersUsed, setLettersUsed] = useState(lettersUsedArray);
-  const [lettersGuessed, setLettersGuessed] = useState([]);
+  const [lettersGuessed, setLettersGuessed] = useState<letter[]>([]);
   const [hp, setHp] = useState(hpArray);
   const [game, setGame] = useState(1);
   const [endScreenOpen, setEndScreenOpen] = useState(false);
-  const [gameEndStatus, setGameEndStatus] = useState("");
+  const [gameEndStatus, setGameEndStatus] = useState<gameEndStatusType>("");
 
   const newGame = useCallback(() => {
     setWord([]);
@@ -31,7 +30,7 @@ const App = () => {
   }, [game]);
 
   const disableLetter = useCallback(
-    (letter) => {
+    (letter: letter) => {
       const nextLettersUsed = lettersUsed.map(({ letter, keyCode, value }) => ({
         letter: letter,
         keyCode: keyCode,
@@ -42,6 +41,11 @@ const App = () => {
         (element) => element.letter === letter
       );
 
+      if (letterObj === undefined) {
+        ERROR(`Letter '${letter}' not found`);
+        return;
+      }
+
       letterObj.value = false;
 
       setLettersUsed(nextLettersUsed);
@@ -50,8 +54,8 @@ const App = () => {
     [lettersUsed]
   );
 
-  const openEndScreen = useCallback((message) => {
-    setGameEndStatus(`${message}`);
+  const openEndScreen = useCallback((message: gameEndStatusType) => {
+    setGameEndStatus(message);
     setEndScreenOpen((o) => !o);
   }, []);
 
@@ -79,6 +83,7 @@ const App = () => {
   }, [hp, openEndScreen]);
 
   const getWhitelist = useCallback(() => {
+    
     const whitelist = lettersUsed.map((element) => {
       if (element.value) {
         return element.keyCode;
@@ -119,7 +124,7 @@ const App = () => {
   }, [hp, openEndScreen]);
 
   useLayoutEffect(() => {
-    setWord(randomWords().split(""));
+    setWord(getRandomWordInLetters());
     INFO(`Game ${game} started \n Word has been randomized`);
 
     return () => {
@@ -130,13 +135,14 @@ const App = () => {
 
   useKeyDown(
     (element) => {
-      handleClick(element.e.key);
+      let letter = element.e.key as letter;
+      handleClick(letter);
     },
     getWhitelist(),
     []
   );
 
-  const handleClick = (letter) => {
+  const handleClick = (letter: letter) => {
     if (gameEndStatus !== "") {
       WARN("Cannot click when end screen is open");
       return;

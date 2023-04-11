@@ -1,4 +1,10 @@
-const KeyCap = ({ letter, keyActive, handleClick, index }) => {
+interface Props {
+  letter: letter;
+  keyActive: boolean;
+  handleClick: (letter: letter) => void;
+}
+
+const KeyCap: React.FC<Props> = ({ letter, keyActive, handleClick }) => {
   return (
     <button
       className="button"

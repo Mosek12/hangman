@@ -1,13 +1,17 @@
 import KeyCap from "./Keycap";
 
-const Keyboard = ({ lettersUsed, handleClick }) => {
+interface Props {
+  lettersUsed: letterUsed[];
+  handleClick: (letter: letter) => void;
+}
+
+const Keyboard: React.FC<Props> = ({ lettersUsed, handleClick }) => {
   return (
     <div className="keyboard">
       {lettersUsed.map(({ letter, value }, index) => {
         return (
           <KeyCap
             key={index}
-            index={index}
             letter={letter}
             keyActive={value}
             handleClick={handleClick}

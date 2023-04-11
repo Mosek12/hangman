@@ -1,4 +1,9 @@
-const TheLetter = ({ letter, lettersGuessed }) => {
+interface Props {
+  letter: letter;
+  lettersGuessed: letter[];
+}
+
+const TheLetter: React.FC<Props> = ({ letter, lettersGuessed }) => {
   return (
     <div className="toDisplay">
       {lettersGuessed.includes(letter) ? (

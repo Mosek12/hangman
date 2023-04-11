@@ -1,15 +1,28 @@
 `All of this code isn't mine. It is copied from https://github.com/bobinrinder/react-keyboard-input-hook
 due to problems with importing the package.`;
 
+type KeyCallbackProps = {
+  keyName: string;
+  keyCode: number;
+  e: KeyboardEvent;
+};
+
+type KeyState = {
+  keyCode: number | null;
+  keyCodeHistory: number[];
+  keyName: string | null;
+  keyNameHistory: string[];
+};
+
 import { useEffect, useState } from "react";
 
 export const FIRE_TV_KEY_CODES = [8, 13, 37, 38, 39, 40, 179, 227, 228];
 
 export default function useKey(
-  handleKeyCallback = null,
-  keyEvent = "keyup",
-  whitelist = [],
-  blacklist = []
+  handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
+  keyEvent: 'keyup' | 'keydown' = "keyup",
+  whitelist:(number|undefined)[] = [],
+  blacklist:(number|undefined)[] = []
 ) {
   // ensure valid event keyEvent
   if (keyEvent !== "keyup" && keyEvent !== "keydown") {
@@ -91,7 +104,7 @@ export default function useKey(
 }
 
 export function useKeyUp(
-  handleKeyCallback = null,
+  handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
   whitelist = [],
   blacklist = []
 ) {
@@ -99,15 +112,15 @@ export function useKeyUp(
 }
 
 export function useKeyDown(
-  handleKeyCallback = null,
-  whitelist = [],
-  blacklist = []
+  handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
+  whitelist:(number|undefined)[] = [],
+  blacklist:(number|undefined)[] = []
 ) {
   return useKey(handleKeyCallback, "keydown", whitelist, blacklist);
 }
 
 export function useFireTvKeyUp(
-  handleKeyCallback = null,
+  handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
   whitelist = FIRE_TV_KEY_CODES,
   blacklist = []
 ) {
@@ -115,14 +128,14 @@ export function useFireTvKeyUp(
 }
 
 export function useFireTvKeyDown(
-  handleKeyCallback = null,
+  handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
   whitelist = FIRE_TV_KEY_CODES,
   blacklist = []
 ) {
   return useKey(handleKeyCallback, "keydown", whitelist, blacklist);
 }
 
-export function useKeyCombo(keyCodes = [], handleKeyCallback = null) {
+export function useKeyCombo(keyCodes = [], handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null) {
   const [currentlyPressedKeyCodes, setCurrentlyPressedKeyCodes] = useState([]);
 
   const handleKeyDown = ({ keyCode, keyName, e }) => {

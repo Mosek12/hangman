@@ -1,4 +1,4 @@
-const lettersUsedArray = [
+const lettersUsedArray: letterUsed[] = [
   { letter: "a", keyCode: 65, value: true },
   { letter: "b", keyCode: 66, value: true },
   { letter: "c", keyCode: 67, value: true },
@@ -27,14 +27,14 @@ const lettersUsedArray = [
   { letter: "z", keyCode: 90, value: true },
 ];
 
-const hpArray = [
-  { letter: "H", value: true },
-  { letter: "A", value: true },
-  { letter: "N", value: true },
-  { letter: "G", value: true },
-  { letter: "M", value: true },
-  { letter: "A", value: true },
-  { letter: "N", value: true },
+const hpArray: hp[] = [
+  { letter: "h", value: true },
+  { letter: "a", value: true },
+  { letter: "n", value: true },
+  { letter: "g", value: true },
+  { letter: "m", value: true },
+  { letter: "a", value: true },
+  { letter: "n", value: true },
 ];
 
 export { lettersUsedArray, hpArray };
