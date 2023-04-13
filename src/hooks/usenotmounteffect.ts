@@ -1,9 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-const useNotMountEffect = (
-  effect: React.EffectCallback,
-  deps: React.DependencyList
-) => {
+const useNotMountEffect = (effect: React.EffectCallback, deps: React.DependencyList) => {
   const isMount = useRef(false);
   useEffect(() => {
     if (isMount.current) {

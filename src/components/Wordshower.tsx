@@ -1,4 +1,4 @@
-import TheLetter from "./Theletter";
+import TheLetter from './Theletter';
 
 interface Props {
   word: letter[];
@@ -9,13 +9,7 @@ const WordShower: React.FC<Props> = ({ word, lettersGuessed }) => {
   return (
     <div className="wordShower">
       {word.map((letter, index) => {
-        return (
-          <TheLetter
-            letter={letter}
-            key={index}
-            lettersGuessed={lettersGuessed}
-          />
-        );
+        return <TheLetter letter={letter} key={index} lettersGuessed={lettersGuessed} />;
       })}
     </div>
   );

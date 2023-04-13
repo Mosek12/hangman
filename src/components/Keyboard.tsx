@@ -1,4 +1,4 @@
-import KeyCap from "./Keycap";
+import KeyCap from './Keycap';
 
 interface Props {
   lettersUsed: letterUsed[];

@@ -1,15 +1,14 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from 'react';
 
-import Keyboard from "./components/Keyboard";
-import WordShower from "./components/Wordshower";
-import TitleHP from "./components/Titlehp";
-import EndScreen from "./components/Endscreen";
-
-import { ERROR, INFO, WARN } from "./utils/logging";
-import { hpArray, lettersUsedArray } from "./utils/arrays";
-import { compareArrays, getRandomWordInLetters } from "./utils/functions";
-import useNotMountEffect from "./hooks/usenotmounteffect";
-import { useKeyDown } from "./hooks/reactkeyboardinputhook";
+import EndScreen from './components/Endscreen';
+import Keyboard from './components/Keyboard';
+import TitleHP from './components/Titlehp';
+import WordShower from './components/Wordshower';
+import { useKeyDown } from './hooks/reactkeyboardinputhook';
+import useNotMountEffect from './hooks/usenotmounteffect';
+import { hpArray, lettersUsedArray } from './utils/arrays';
+import { compareArrays, getRandomWordInLetters } from './utils/functions';
+import { ERROR, INFO, WARN } from './utils/logging';
 
 const App: React.FC = () => {
   const [word, setWord] = useState<letter[]>([]);
@@ -18,7 +17,7 @@ const App: React.FC = () => {
   const [hp, setHp] = useState(hpArray);
   const [game, setGame] = useState(1);
   const [endScreenOpen, setEndScreenOpen] = useState(false);
-  const [gameEndStatus, setGameEndStatus] = useState<gameEndStatusType>("");
+  const [gameEndStatus, setGameEndStatus] = useState<gameEndStatusType>('');
 
   const newGame = useCallback(() => {
     setWord([]);
@@ -26,7 +25,7 @@ const App: React.FC = () => {
     setLettersGuessed([]);
     setHp(hpArray);
     setGame(game + 1);
-    setGameEndStatus("");
+    setGameEndStatus('');
   }, [game]);
 
   const disableLetter = useCallback(
@@ -37,9 +36,7 @@ const App: React.FC = () => {
         value: value,
       }));
 
-      let letterObj = nextLettersUsed.find(
-        (element) => element.letter === letter
-      );
+      const letterObj = nextLettersUsed.find((element) => element.letter === letter);
 
       if (letterObj === undefined) {
         ERROR(`Letter '${letter}' not found`);
@@ -51,7 +48,7 @@ const App: React.FC = () => {
       setLettersUsed(nextLettersUsed);
       INFO(`Letter '${letter}' has been disabled`);
     },
-    [lettersUsed]
+    [lettersUsed],
   );
 
   const openEndScreen = useCallback((message: gameEndStatusType) => {
@@ -62,12 +59,13 @@ const App: React.FC = () => {
   const hpMinus = useCallback(() => {
     //this function needs rewriting but it works for now
     if (hp.every((element) => element.value === false)) {
-      ERROR("Called hpMinus when all hp is gone");
-      openEndScreen("error");
+      ERROR('Called hpMinus when all hp is gone');
+      openEndScreen('error');
       return;
     }
+    // eslint-disable-next-line no-constant-condition
     while (true) {
-      let randomIndex = Math.floor(Math.random() * 7);
+      const randomIndex = Math.floor(Math.random() * 7);
       if (hp[randomIndex].value) {
         const nextHp = hp.map(({ letter, value }) => ({
           letter: letter,
@@ -76,14 +74,13 @@ const App: React.FC = () => {
         nextHp[randomIndex].value = false;
 
         setHp(nextHp);
-        INFO("Hp down");
+        INFO('Hp down');
         break;
       }
     }
   }, [hp, openEndScreen]);
 
   const getWhitelist = useCallback(() => {
-    
     const whitelist = lettersUsed.map((element) => {
       if (element.value) {
         return element.keyCode;
@@ -99,8 +96,8 @@ const App: React.FC = () => {
       return;
     }
     if (compareArrays(word, lettersGuessed)) {
-      INFO("Word is guessed \n You win!");
-      openEndScreen("win");
+      INFO('Word is guessed \n You win!');
+      openEndScreen('win');
     }
 
     return () => {
@@ -114,8 +111,8 @@ const App: React.FC = () => {
     INFO(`Checking lose`);
 
     if (hp.every((element) => element.value === false)) {
-      INFO("Hp is empty \n You lose!");
-      openEndScreen("lose");
+      INFO('Hp is empty \n You lose!');
+      openEndScreen('lose');
     }
 
     return () => {
@@ -135,16 +132,16 @@ const App: React.FC = () => {
 
   useKeyDown(
     (element) => {
-      let letter = element.e.key as letter;
+      const letter = element.e.key as letter;
       handleClick(letter);
     },
     getWhitelist(),
-    []
+    [],
   );
 
   const handleClick = (letter: letter) => {
-    if (gameEndStatus !== "") {
-      WARN("Cannot click when end screen is open");
+    if (gameEndStatus !== '') {
+      WARN('Cannot click when end screen is open');
       return;
     }
     disableLetter(letter);
@@ -158,8 +155,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="mainContainer">
-      <div className="inlineDiv">
+    <>
+      <div className="mainApp">
         <TitleHP hp={hp} />
         <WordShower word={word} lettersGuessed={lettersGuessed} />
         <Keyboard lettersUsed={lettersUsed} handleClick={handleClick} />
@@ -171,7 +168,7 @@ const App: React.FC = () => {
         status={gameEndStatus}
         word={word}
       />
-    </div>
+    </>
   );
 };
 

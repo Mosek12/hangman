@@ -6,11 +6,7 @@ interface Props {
 
 const KeyCap: React.FC<Props> = ({ letter, keyActive, handleClick }) => {
   return (
-    <button
-      className="button"
-      onClick={() => handleClick(letter)}
-      disabled={!keyActive}
-    >
+    <button className="keyCap" onClick={() => handleClick(letter)} disabled={!keyActive}>
       {letter.toUpperCase()}
     </button>
   );

@@ -1,6 +1,6 @@
 const TitleHP: React.FC<{ hp: hp[] }> = ({ hp }) => {
   return (
-    <h1 className="textH1">
+    <h1 className="titleHp">
       {hp.map(({ letter, value }, index) => {
         return (
           <span key={index}>

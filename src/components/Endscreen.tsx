@@ -1,6 +1,7 @@
-import Popup from "reactjs-popup";
-import { WARN } from "../utils/logging";
-import { useKeyDown } from "../hooks/reactkeyboardinputhook";
+import Popup from 'reactjs-popup';
+
+import { useKeyDown } from '../hooks/reactkeyboardinputhook';
+import { WARN } from '../utils/logging';
 
 interface Props {
   open: boolean;
@@ -10,13 +11,7 @@ interface Props {
   word: letter[];
 }
 
-const EndScreen: React.FC<Props> = ({
-  open,
-  setOpen,
-  newGame,
-  status,
-  word,
-}) => {
+const EndScreen: React.FC<Props> = ({ open, setOpen, newGame, status, word }) => {
   const handleClose = () => {
     setOpen(false);
     newGame();
@@ -29,14 +24,14 @@ const EndScreen: React.FC<Props> = ({
       }
     },
     [13, 27, 32],
-    []
+    [],
   );
 
   return (
     <Popup open={open} modal closeOnDocumentClick onClose={handleClose}>
       {(() => {
         switch (status) {
-          case "lose":
+          case 'lose':
             return (
               <p>
                 You lose! Word was &quot;{word.map((a) => a.toUpperCase())}
@@ -44,14 +39,14 @@ const EndScreen: React.FC<Props> = ({
               </p>
             );
 
-          case "win":
+          case 'win':
             return <p>You win!</p>;
 
-          case "error":
+          case 'error':
             return <p>Something went wrong</p>;
 
-          case "":
-            () => WARN("Invalid status");
+          case '':
+            () => WARN('Invalid status');
             return <p>Something went wrong</p>;
         }
       })()}

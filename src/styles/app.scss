@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100;200;300;400;500;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100;200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
 
 .mainContainer {
   display: grid;
@@ -14,7 +14,7 @@
   font-size: 3.9em;
   margin-bottom: 1.5rem;
   font-weight: 400;
-  font-family: "Cutive Mono", monospace;
+  font-family: 'Cutive Mono', monospace;
 }
 
 .inlineDiv {
@@ -34,7 +34,7 @@
   display: grid;
   justify-content: center;
   align-items: center;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 1.2em;
 }
@@ -68,7 +68,7 @@
 
 .toDisplay {
   border-bottom: 2px rgba(255, 255, 255, 0.743) solid;
-  border-radius: 3px;
+  border-radius: 0px;
   height: 3em;
   width: 2.3em;
   display: grid;
@@ -77,7 +77,9 @@
 
 .toDisplayText {
   font-size: 2.8em;
-  font-family: "Martian Mono", monospace;
+  font-family: 'Martian Mono', monospace;
   font-weight: 200;
-  transform: translateY(-1.0em);
+  transform: translateY(-1em);
+
+  color: white;
 }
