@@ -132,7 +132,7 @@ const App: React.FC = () => {
 
   useKeyDown(
     (element) => {
-      const letter = element.e.key as letter;
+      const letter = element.e.key.toLowerCase() as letter;
       handleClick(letter);
     },
     getWhitelist(),

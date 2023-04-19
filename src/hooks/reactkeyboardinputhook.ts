@@ -14,26 +14,24 @@ type KeyState = {
   keyNameHistory: string[];
 };
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const FIRE_TV_KEY_CODES = [8, 13, 37, 38, 39, 40, 179, 227, 228];
 
 export default function useKey(
   handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
-  keyEvent: 'keyup' | 'keydown' = "keyup",
-  whitelist:(number|undefined)[] = [],
-  blacklist:(number|undefined)[] = []
+  keyEvent: 'keyup' | 'keydown' = 'keyup',
+  whitelist: (number | undefined)[] = [],
+  blacklist: (number | undefined)[] = [],
 ) {
   // ensure valid event keyEvent
-  if (keyEvent !== "keyup" && keyEvent !== "keydown") {
-    console.warn(
-      "useKey keyEvent invalid, assumed keyEvent 'keydown' as fallback!"
-    );
-    keyEvent = "keydown";
+  if (keyEvent !== 'keyup' && keyEvent !== 'keydown') {
+    console.warn("useKey keyEvent invalid, assumed keyEvent 'keydown' as fallback!");
+    keyEvent = 'keydown';
   }
   // ensure only white- OR blacklist are set
   if (whitelist.length > 0 && blacklist.length > 0) {
-    console.warn("White- and blacklist arrays > 0, emptied blacklist!");
+    console.warn('White- and blacklist arrays > 0, emptied blacklist!');
     blacklist = [];
   }
   // init state
@@ -47,11 +45,7 @@ export default function useKey(
   useEffect(() => {
     // check if window and dom available (to exit early on Server-Side-Rendering)
     if (
-      !(
-        typeof window !== "undefined" &&
-        window.document &&
-        window.document.createElement
-      )
+      !(typeof window !== 'undefined' && window.document && window.document.createElement)
     ) {
       return null;
     }
@@ -59,7 +53,7 @@ export default function useKey(
     const handleKey = (e) => {
       // get key details from event
       const keyCode = e.keyCode;
-      const code = e.code || "UnknownKey";
+      const code = e.code || 'UnknownKey';
 
       // check if white or blacklisted
       if (whitelist.length > 0 && whitelist.indexOf(keyCode) === -1) {
@@ -80,7 +74,7 @@ export default function useKey(
       });
 
       // handle callback (if exists)
-      if (handleKeyCallback && typeof handleKeyCallback == "function") {
+      if (handleKeyCallback && typeof handleKeyCallback == 'function') {
         handleKeyCallback({
           keyName: code,
           keyCode,
@@ -106,46 +100,44 @@ export default function useKey(
 export function useKeyUp(
   handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
   whitelist = [],
-  blacklist = []
+  blacklist = [],
 ) {
-  return useKey(handleKeyCallback, "keyup", whitelist, blacklist);
+  return useKey(handleKeyCallback, 'keyup', whitelist, blacklist);
 }
 
 export function useKeyDown(
   handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
-  whitelist:(number|undefined)[] = [],
-  blacklist:(number|undefined)[] = []
+  whitelist: (number | undefined)[] = [],
+  blacklist: (number | undefined)[] = [],
 ) {
-  return useKey(handleKeyCallback, "keydown", whitelist, blacklist);
+  return useKey(handleKeyCallback, 'keydown', whitelist, blacklist);
 }
 
 export function useFireTvKeyUp(
   handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
   whitelist = FIRE_TV_KEY_CODES,
-  blacklist = []
+  blacklist = [],
 ) {
-  return useKey(handleKeyCallback, "keyup", whitelist, blacklist);
+  return useKey(handleKeyCallback, 'keyup', whitelist, blacklist);
 }
 
 export function useFireTvKeyDown(
   handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
   whitelist = FIRE_TV_KEY_CODES,
-  blacklist = []
+  blacklist = [],
 ) {
-  return useKey(handleKeyCallback, "keydown", whitelist, blacklist);
+  return useKey(handleKeyCallback, 'keydown', whitelist, blacklist);
 }
 
-export function useKeyCombo(keyCodes = [], handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null) {
+export function useKeyCombo(
+  keyCodes = [],
+  handleKeyCallback: ((props: KeyCallbackProps) => void) | null = null,
+) {
   const [currentlyPressedKeyCodes, setCurrentlyPressedKeyCodes] = useState([]);
 
   const handleKeyDown = ({ keyCode, keyName, e }) => {
     if (currentlyPressedKeyCodes.indexOf(keyCode) === -1) {
-      if (
-        checkIfArrayItemsinArray(keyCodes, [
-          ...currentlyPressedKeyCodes,
-          keyCode,
-        ])
-      ) {
+      if (checkIfArrayItemsinArray(keyCodes, [...currentlyPressedKeyCodes, keyCode])) {
         handleKeyCallback({ keyCode, keyName, e });
         setCurrentlyPressedKeyCodes([]);
       } else {
@@ -167,7 +159,7 @@ export function useKeyCombo(keyCodes = [], handleKeyCallback: ((props: KeyCallba
   useKeyUp(handleKeyUp, keyCodes);
 
   if (!keyCodes || keyCodes.length < 2 || !handleKeyCallback) {
-    console.warn("Invalid arguments for usekeyCombo!");
+    console.warn('Invalid arguments for usekeyCombo!');
   }
 }
 

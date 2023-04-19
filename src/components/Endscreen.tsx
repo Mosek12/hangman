@@ -28,7 +28,7 @@ const EndScreen: React.FC<Props> = ({ open, setOpen, newGame, status, word }) =>
   );
 
   return (
-    <Popup open={open} modal closeOnDocumentClick onClose={handleClose}>
+    <Popup open={open} modal closeOnDocumentClick={false}>
       {(() => {
         switch (status) {
           case 'lose':
@@ -50,6 +50,7 @@ const EndScreen: React.FC<Props> = ({ open, setOpen, newGame, status, word }) =>
             return <p>Something went wrong</p>;
         }
       })()}
+      <button onClick={handleClose}>New game</button>
     </Popup>
   );
 };

@@ -1,0 +1,61 @@
+@use 'colors.scss' as c;
+@use 'colorsp3.scss' as c3;
+
+body {
+  background: c.$background-primary;
+  background: radial-gradient(
+    circle,
+    c.$background-primary -20%,
+    c.$background-secondary 100%
+  );
+
+  @media (color-gamut: p3) {
+    background: radial-gradient(
+      circle,
+      c3.$background-primary -20%,
+      c3.$background-secondary 100%
+    );
+  }
+}
+
+.mainApp {
+  background-color: c.$background-dimmed;
+  box-shadow: c.$main-shadow-color 0px 0px 80px 0px,
+    c.$border-shadow-color 0px 0px 4px 0px, c.$border-shadow-color 0px 0px 4px 0px inset;
+
+  @media (color-gamut: p3) {
+    background-color: c3.$background-dimmed;
+    box-shadow: c3.$main-shadow-color 0px 0px 80px 0px,
+      c.$border-shadow-color 0px 0px 4px 0px, c.$border-shadow-color 0px 0px 4px 0px inset;
+  }
+}
+
+.titleHp {
+  text-shadow: 0 0 70px c.$title-shadow-color, 0 0 2px c.$border-shadow-color;
+
+  @media (color-gamut: p3) {
+    text-shadow: 0 0 70px c3.$title-shadow-color, 0 0 2px c.$border-shadow-color;
+  }
+}
+
+.keyCap {
+  background-color: c.$background-keycap;
+  border: 2px solid c.$border-keycap;
+  box-shadow: c.$keycap-shadow-color 0px 0px 10px 0px;
+  &:hover {
+    background-color: c.$background-keycap-hover;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: c.$background-keycap-disabled;
+
+    color: c.$color-keycap-disabled;
+  }
+
+  @media (color-gamut: p3) {
+    background-color: c3.$background-keycap;
+    &:hover {
+      background-color: c3.$background-keycap-hover;
+    }
+  }
+}
